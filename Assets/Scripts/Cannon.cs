@@ -15,6 +15,10 @@ public class Cannon : MonoBehaviour {
     private PlayerController playerC;
     private Quaternion lookRotation;
     private Vector3 direction;
+
+    public int ammo = 5;
+    public float cooldown = 5;
+    private float timer = 0;
     
     private void Start()
     {
@@ -23,7 +27,7 @@ public class Cannon : MonoBehaviour {
     }
     
     private void Update() {
-        if (isStill)
+        if (isStill && timer <= 0 && ammo > 0)
         {
             line.enabled = true;
             HandleControls();
@@ -33,6 +37,8 @@ public class Cannon : MonoBehaviour {
         {
             line.enabled = false;
         }
+        
+        timer -= Time.deltaTime;
     }
     
     private void HandleControls()
@@ -59,9 +65,14 @@ public class Cannon : MonoBehaviour {
         }
 
         if (Input.GetMouseButtonDown(0)) {
-            var spawned = Instantiate(_ballPrefab, _ballSpawn.position, _ballSpawn.rotation);
+            if (ammo > 0)
+            {
+                var spawned = Instantiate(_ballPrefab, _ballSpawn.position, _ballSpawn.rotation);
 
-            spawned.Init(_ballSpawn.forward * _force, false);
+                spawned.Init(_ballSpawn.forward * _force, false);
+                ammo--;
+                timer = cooldown;
+            }
         }
     }
     
