@@ -5,13 +5,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     //Player Visual Model
-    private GameObject playerModel;
+    public GameObject playerModel;
     
     //Player Rigid Body
     private Rigidbody playerRB;
 
     //Player Speed Variables
     public float speed = 0f;
+
+    public float currentSpeed = 0f;
     //public float moveX = 0f;
 
     //Player Jump Variables
@@ -20,11 +22,16 @@ public class PlayerController : MonoBehaviour
     private int totalJumps = 0;
     private bool isGrounded = true;
     
+    //Cannon Script
+    public Cannon cannon;
+    
     // Start is called before the first frame update
     void Start()
     {
         playerModel = GameObject.FindGameObjectWithTag("PlayerModel");
         playerRB = GetComponent<Rigidbody>();
+
+        cannon = GetComponentInChildren<Cannon>();
 
     }
 
@@ -42,7 +49,6 @@ public class PlayerController : MonoBehaviour
         moveX = Input.GetAxisRaw("Horizontal");
 
         Vector3 scale = transform.localScale;
-
         
         //Player Direction
         if (moveX > 0)
@@ -59,8 +65,19 @@ public class PlayerController : MonoBehaviour
         {
             playerModel.transform.localScale = scale;
         }
+        
+        currentSpeed = moveX * speed * Time.deltaTime;
 
-        transform.position += new Vector3(moveX, 0f, 0f) * (speed) * Time.deltaTime;
+        if (Mathf.Abs(currentSpeed) > 0)
+        {
+            cannon.isStill = false;
+        }
+        else
+        {
+            cannon.isStill = true;
+        }
+
+        transform.position += new Vector3(currentSpeed, 0f, 0f);
     }
 
     private void OnTriggerEnter(Collider col)

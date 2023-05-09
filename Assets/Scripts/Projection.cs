@@ -43,8 +43,10 @@ public class Projection : MonoBehaviour {
         _line.positionCount = _maxPhysicsFrameIterations;
 
         for (var i = 0; i < _maxPhysicsFrameIterations; i++) {
+            //renderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
             _physicsScene.Simulate(Time.fixedDeltaTime);
             _line.SetPosition(i, ghostObj.transform.position);
+            
         }
 
         Destroy(ghostObj.gameObject);
