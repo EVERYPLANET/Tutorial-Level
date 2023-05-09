@@ -9,6 +9,10 @@ public class Ball : MonoBehaviour {
     public void Init(Vector3 velocity, bool isGhost) {
         _isGhost = isGhost;
         _rb.AddForce(velocity, ForceMode.Impulse);
+        if (_isGhost)
+        {
+            gameObject.tag = "Untagged";
+        }
     }
 
     public void OnCollisionEnter(Collision col) {

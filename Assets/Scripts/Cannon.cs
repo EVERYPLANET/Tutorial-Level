@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using TMPro;
 
 public class Cannon : MonoBehaviour {
     [SerializeField] private Projection _projection;
@@ -7,7 +8,8 @@ public class Cannon : MonoBehaviour {
     private LineRenderer line;
     
     [SerializeField] private Ball _ballPrefab;
-    [SerializeField] private float _force = 20;
+    [SerializeField] private float _force = 100;
+    [SerializeField] private float _maxForce = 200;
     [SerializeField] private Transform _ballSpawn;
     [SerializeField] private Transform _barrelPivot;
     [SerializeField] private float _rotateSpeed = 30;
@@ -19,11 +21,14 @@ public class Cannon : MonoBehaviour {
     public int ammo = 5;
     public float cooldown = 5;
     private float timer = 0;
+
+    private TextMeshProUGUI ammoCounter;
     
     private void Start()
     {
         playerC = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         line = GetComponent<LineRenderer>();
+        ammoCounter = GameObject.FindGameObjectWithTag("Ammo Counter").GetComponent<TextMeshProUGUI>();
     }
     
     private void Update() {
@@ -39,6 +44,7 @@ public class Cannon : MonoBehaviour {
         }
         
         timer -= Time.deltaTime;
+        ammoCounter.text = ammo.ToString();
     }
     
     private void HandleControls()
@@ -57,11 +63,11 @@ public class Cannon : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.S) && _force >= 1)
         {
-            _force -= 30 * Time.deltaTime;
+            _force -= 50 * Time.deltaTime;
         }
-        else if (Input.GetKey(KeyCode.W) && _force <= 100)
+        else if (Input.GetKey(KeyCode.W) && _force <= _maxForce)
         {
-            _force += 30 * Time.deltaTime;
+            _force += 50 * Time.deltaTime;
         }
 
         if (Input.GetMouseButtonDown(0)) {
