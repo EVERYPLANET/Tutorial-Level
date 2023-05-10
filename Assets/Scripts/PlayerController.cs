@@ -22,9 +22,15 @@ public class PlayerController : MonoBehaviour
     private int totalJumps = 0;
     private bool isGrounded = true;
     
+    //Controls on?
+    public bool controlsActive = true;
+    
     //Cannon Script
     public Cannon cannon;
     
+    //Inventory
+    public List<string> inventory = new List<string>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,8 +44,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PlayerMovement();
-        JumpHandler();
+        if (controlsActive)
+        {
+            PlayerMovement();
+            JumpHandler();
+        }
     }
     
     // Player AD Movement
@@ -112,5 +121,19 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
             playerRB.AddForce(new Vector2(0f, jumpStrength), ForceMode.Impulse);
         }
+    }
+
+    public void addInventory(string itemID, int quantity)
+    {
+        for (int i = 0; i < quantity; i++)
+        {
+            inventory.Add(itemID);
+        }
+        
+    }
+
+    public bool CheckInventory(string itemID)
+    {
+        return inventory.Contains(itemID);
     }
 }

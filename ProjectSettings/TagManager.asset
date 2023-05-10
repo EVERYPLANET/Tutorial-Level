@@ -10,6 +10,7 @@ TagManager:
   - Bounce
   - FollowCam
   - Ammo Counter
+  - Scene
   layers:
   - Default
   - TransparentFX

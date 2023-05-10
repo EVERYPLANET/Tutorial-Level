@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Ball : MonoBehaviour {
@@ -5,6 +7,7 @@ public class Ball : MonoBehaviour {
     //[SerializeField] private AudioSource _source;
     //[SerializeField] private AudioClip[] _clips;
     private bool _isGhost;
+    private float lifeSpan = 5;
 
     public void Init(Vector3 velocity, bool isGhost) {
         _isGhost = isGhost;
@@ -12,6 +15,18 @@ public class Ball : MonoBehaviour {
         if (_isGhost)
         {
             gameObject.tag = "Untagged";
+        }
+    }
+
+    private void Update()
+    {
+        if (lifeSpan >= 0)
+        {
+            lifeSpan -= Time.deltaTime;
+        }
+        else
+        {
+            Destroy(this.gameObject);
         }
     }
 
