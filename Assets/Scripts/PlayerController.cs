@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     //Player Visual Model
     public GameObject playerModel;
+    private Animator modelAnimator;
     
     //Player Rigid Body
     private Rigidbody playerRB;
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour
     {
         playerModel = GameObject.FindGameObjectWithTag("PlayerModel");
         playerRB = GetComponent<Rigidbody>();
+        modelAnimator = playerModel.GetComponent<Animator>();
 
         cannon = GetComponentInChildren<Cannon>();
 
@@ -48,6 +50,9 @@ public class PlayerController : MonoBehaviour
         {
             PlayerMovement();
             JumpHandler();
+
+            print(currentSpeed);
+            modelAnimator.SetFloat("speed", Mathf.Abs(currentSpeed));
         }
     }
     
@@ -57,22 +62,22 @@ public class PlayerController : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal");
         moveX = Input.GetAxisRaw("Horizontal");
 
-        Vector3 scale = transform.localScale;
-        
+        Vector3 rotation = playerModel.transform.eulerAngles;
+
         //Player Direction
         if (moveX > 0)
         {
-            scale.x = Mathf.Abs(scale.x);
+            rotation.y = 110;
         }
 
         if (moveX < 0)
         {
-            scale.x = -Mathf.Abs(scale.x);
+            rotation.y = 250;
         }
 
         if (Mathf.Abs(moveX) > 0)
         {
-            playerModel.transform.localScale = scale;
+            playerModel.transform.eulerAngles = rotation;
         }
         
         currentSpeed = moveX * speed * Time.deltaTime;

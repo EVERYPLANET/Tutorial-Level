@@ -58,9 +58,9 @@ public class Cannon : MonoBehaviour
         Vector2 mouseOnScreen = (Vector2)Camera.main.ScreenToViewportPoint(Input.mousePosition);
         float angle = AngleBetweenTwoPoints(positionOnScreen, mouseOnScreen);
 
-        var facing = playerC.playerModel.transform.localScale.x;
-        bool rightCondition = (facing >= 0) && ((angle <= -300 && angle >= -360) || (angle <= 0 && angle >= -80));
-        bool leftCondition = (facing <= 0) && (angle >= -240 && angle <= -100);
+        var facing = playerC.playerModel.transform.eulerAngles.y;
+        bool rightCondition = (facing <= 200) && ((angle <= -300 && angle >= -360) || (angle <= 0 && angle >= -80));
+        bool leftCondition = (facing >= 200) && (angle >= -240 && angle <= -100);
         if (rightCondition || leftCondition)
         {
             _barrelPivot.transform.eulerAngles = (new Vector3(angle, 90, 0));
