@@ -31,6 +31,10 @@ public class PlayerController : MonoBehaviour
     
     //Inventory
     public List<string> inventory = new List<string>();
+    
+    //Audio Manager
+    public AudioManager AM;
+    public string clipName;
 
     // Start is called before the first frame update
     void Start()
@@ -51,7 +55,7 @@ public class PlayerController : MonoBehaviour
             PlayerMovement();
             JumpHandler();
 
-            print(currentSpeed);
+            //print(currentSpeed);
             modelAnimator.SetFloat("speed", Mathf.Abs(currentSpeed));
         }
     }
@@ -130,6 +134,8 @@ public class PlayerController : MonoBehaviour
 
     public void addInventory(string itemID, int quantity)
     {
+        AM.playClip(clipName);
+        print("You got " +quantity.ToString() + " "+ itemID.ToString()+ "!");
         for (int i = 0; i < quantity; i++)
         {
             inventory.Add(itemID);
@@ -139,6 +145,7 @@ public class PlayerController : MonoBehaviour
 
     public bool CheckInventory(string itemID)
     {
+        print(inventory.Contains(itemID));
         return inventory.Contains(itemID);
     }
 }

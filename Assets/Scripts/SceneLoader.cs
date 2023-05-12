@@ -17,4 +17,15 @@ public class SceneLoader : MonoBehaviour
         int currentIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentIndex + 1);
     }
+
+    public void Death()
+    {
+        SceneManager.LoadScene("Death");
+    }
+
+    public void GoToScene(int index)
+    {
+        SceneManager.LoadScene(index);
+    }
+    
 }

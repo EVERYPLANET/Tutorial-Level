@@ -17,6 +17,8 @@ public class DialogController : MonoBehaviour
     private int index;
 
     private PlayerController playerC;
+
+    public bool end = false;
     
     // Start is called before the first frame update
     void Start()
@@ -27,6 +29,7 @@ public class DialogController : MonoBehaviour
         StartDialog();
 
         playerC.controlsActive = false;
+        print("ok");
     }
 
     private void OnEnable()
@@ -66,6 +69,7 @@ public class DialogController : MonoBehaviour
         foreach (char c in currentLines[index].ToCharArray())
         {
             textBox.text += c;
+            playerC.AM.playClip("voice");
             yield return new WaitForSeconds(textSpeed);
 
         }
@@ -84,7 +88,7 @@ public class DialogController : MonoBehaviour
             playerC.controlsActive = true;
             this.gameObject.SetActive(false);
 
-            if (playerC.CheckInventory("Key"))
+            if (playerC.CheckInventory("Key") || end)
             {
                 SceneLoader scene = GameObject.FindGameObjectWithTag("Scene").GetComponent<SceneLoader>();
                 scene.LevelFade();
@@ -94,7 +98,8 @@ public class DialogController : MonoBehaviour
 
     private void selectLines()
     {
-        if (playerC.CheckInventory("Key"))
+        print(playerC.CheckInventory("Key"));
+        if (playerC.CheckInventory("Key") || end)
         {
             currentLines = endLines;
         }
@@ -103,4 +108,10 @@ public class DialogController : MonoBehaviour
             currentLines = interactionLines;
         }
     }
+
+    public void SetEnd(bool set)
+    {
+        end = set;
+    }
+    
 }

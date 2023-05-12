@@ -80,7 +80,7 @@ public class Cannon : MonoBehaviour
             if (ammo > 0)
             {
                 var spawned = Instantiate(_ballPrefab, _ballSpawn.position, _ballSpawn.rotation);
-
+                playerC.AM.playClip("plop");
                 spawned.Init(_ballSpawn.forward * _force, false);
                 useAmmo();
                 timer = cooldown;

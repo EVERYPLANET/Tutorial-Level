@@ -21,7 +21,6 @@ public class Collectable : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            print("h");
             interactionEnabled = true;
             playerC = col.gameObject.GetComponent<PlayerController>();
             tooltip.SetActive(true);

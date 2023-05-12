@@ -10,6 +10,8 @@ public class CollisionAction : MonoBehaviour
     public Canvas hintCanvas;
     public GameObject controls;
     private HingeJoint[] hinges;
+
+    public AudioManager AM;
     
     void Start()
     {
@@ -21,8 +23,12 @@ public class CollisionAction : MonoBehaviour
         if (other.CompareTag("Ball"))
         {
             Destroy(hintCanvas);
-            Rigidbody2D controlsRB = controls.GetComponent<Rigidbody2D>();
-            controlsRB.gravityScale = 1;
+            AM.playClip("hit");
+            if (controls != null)
+            {
+                Rigidbody2D controlsRB = controls.GetComponent<Rigidbody2D>();
+                controlsRB.gravityScale = 1;
+            }
             foreach (HingeJoint hinge in hinges)
             {
                 Destroy(hinge);
